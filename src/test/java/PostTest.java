@@ -4,6 +4,7 @@ import com.jayway.restassured.response.Response;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import pojoClasses.Booking;
+import pojoClasses.BookingResponse;
 import utulity.BaseClass;
 import utulity.Url;
 
@@ -19,24 +20,16 @@ public class PostTest {
         Booking body = new Booking();
         body = body.addBookingAllFieldsFilled("Diana", "Round", 6, true, "pijamas", "2022-08-04", "2022-08-08");
 
-        Response response = BaseClass.postRequest(endPoint, body);
-        int actualTotalPrice = response.path("booking.totalprice");
-        int expectedTotalPrice = body.getTotalprice();
-        boolean actualDeposit = response.path("booking.depositpaid");
-        boolean expectedDeposit = body.isDepositpaid();
+        BookingResponse bookingResponse = BaseClass.postRequest(endPoint, body);
 
-        softAssert.assertEquals(response.path("booking.firstname"), body.getFirstname(), NAME_IS_NOT_RIGHT);
-        softAssert.assertEquals(response.path("booking.lastname"), body.getLastname(), LAST_NAME_IS_NOT_RIGHT);
-        softAssert.assertEquals(actualTotalPrice, expectedTotalPrice, TOTAL_PRICE_IS_NOT_RIGHT);
-        softAssert.assertEquals(actualDeposit, expectedDeposit, DEPOSIT_IS_NOT_RIGHT);
-        softAssert.assertEquals(response.path("booking.bookingdates.checkin"), body.getBookingdates().getCheckin(), CHECKIN_DATE_IS_NOT_RIGHT);
-        softAssert.assertEquals(response.path("booking.bookingdates.checkout"), body.getBookingdates().getCheckout(), CHECKOUT_DATE_IS_NOT_RIGHT);
-        softAssert.assertEquals(response.getStatusCode(), 200, STATUS_CODE_IS_NOT_RIGHT);
+        softAssert.assertEquals(bookingResponse.getBooking().getFirstname(), body.getFirstname(), NAME_IS_NOT_RIGHT);
+        softAssert.assertEquals(bookingResponse.getBooking().getLastname(), body.getLastname(), LAST_NAME_IS_NOT_RIGHT);
+        softAssert.assertEquals(bookingResponse.getBooking().getTotalprice(), body.getTotalprice(), TOTAL_PRICE_IS_NOT_RIGHT);
+        softAssert.assertEquals(bookingResponse.getBooking().isDepositpaid(), body.isDepositpaid(), DEPOSIT_IS_NOT_RIGHT);
+        softAssert.assertEquals(bookingResponse.getBooking().getBookingdates().getCheckin(), body.getBookingdates().getCheckin(), CHECKIN_DATE_IS_NOT_RIGHT);
+        softAssert.assertEquals(bookingResponse.getBooking().getBookingdates().getCheckout(), body.getBookingdates().getCheckout(), CHECKOUT_DATE_IS_NOT_RIGHT);
         softAssert.assertAll();
-
-        int id = response.path("bookingid");
-        System.out.println(id);
-        response.prettyPrint();
+        System.out.println(bookingResponse.getBookingid() + " id of booking");
     }
 
 

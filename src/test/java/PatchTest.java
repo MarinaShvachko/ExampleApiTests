@@ -1,8 +1,8 @@
 import com.jayway.restassured.http.ContentType;
-import com.jayway.restassured.response.Response;
 import org.hamcrest.Matchers;
 import org.testng.annotations.Test;
 import pojoClasses.Booking;
+import pojoClasses.BookingResponse;
 import utulity.Authentication;
 import utulity.BaseClass;
 import utulity.Url;
@@ -17,9 +17,8 @@ public class PatchTest {
     public void updateNameAndLastName() {
         Booking body = new Booking();
         body = body.addBookingAllFieldsFilled("Diana", "Round", 6, true, "pijamas", "2022-08-04", "2022-08-08");
-        Response response = BaseClass.postRequest(endPoint, body);
-        endPoint = endPoint + response.path("bookingid");
-
+        BookingResponse response = BaseClass.postRequest(endPoint, body);
+        endPoint = endPoint + response.getBookingid();
 
         given()
                 .cookie("token", Authentication.getToken())

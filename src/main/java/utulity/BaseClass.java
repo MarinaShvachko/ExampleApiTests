@@ -5,28 +5,29 @@ import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 import pojoClasses.Booking;
+import pojoClasses.BookingResponse;
 
 public class BaseClass {
-    public static Response postRequest(String requestURI, Booking booking) {
-        RequestSpecification requestSpecification = RestAssured.given().body(booking);
+    public static BookingResponse postRequest(String requestURI, Booking booking) {
+        RequestSpecification requestSpecification = RestAssured.given().body(booking).log().all();
         requestSpecification.contentType(ContentType.JSON);
-        Response response = requestSpecification.post(requestURI);
-        return response;
+        BookingResponse bookingResponse = requestSpecification.post(requestURI).then().assertThat().statusCode(200).extract().response().as(BookingResponse.class);
+        return bookingResponse;
     }
 
-    public static Response putRequest(String requestURI, Booking booking, String token) {
+    public static Booking putRequest(String requestURI, Booking booking, String token) {
         RequestSpecification requestSpecification = RestAssured.given().body(booking).log().all();
         requestSpecification.contentType(ContentType.JSON);
         requestSpecification.cookie("token", token);
-        Response response = requestSpecification.put(requestURI);
+        Booking response = requestSpecification.put(requestURI).then().assertThat().statusCode(200).extract().response().as(Booking.class);
         return response;
     }
 
-    public static Response patchRequest(String requestURI, Booking booking, String token) {
+    public static Booking patchRequest(String requestURI, Booking booking, String token) {
         RequestSpecification requestSpecification = RestAssured.given().body(booking).log().all();
         requestSpecification.contentType(ContentType.JSON);
         requestSpecification.cookie("token", token);
-        Response response = requestSpecification.patch(requestURI);
+        Booking response = requestSpecification.patch(requestURI).then().assertThat().statusCode(200).extract().response().as(Booking.class);
         return response;
     }
 

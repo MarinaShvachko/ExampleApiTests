@@ -1,6 +1,5 @@
 package pojoClasses;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,9 +11,6 @@ public class Booking {
     private int totalprice;
     private boolean depositpaid;
     private String additionalneeds;
-
-    @Setter(AccessLevel.PRIVATE)
-    private int bookingId;
 
     //to create json in json
     BookingDates bookingdates;

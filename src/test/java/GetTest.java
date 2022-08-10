@@ -1,11 +1,10 @@
-
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
 import org.testng.annotations.Test;
 import utulity.BaseClass;
 import utulity.Url;
 
-import static com.jayway.restassured.RestAssured.*;
+import static com.jayway.restassured.RestAssured.when;
 
 public class GetTest {
     String endPoint = Url.getBaseUri("/booking");
@@ -14,7 +13,7 @@ public class GetTest {
     public void getBookById() {
         RestAssured.baseURI = Url.getBaseUri();
         when()
-                .get("/booking/7165")
+                .get("/booking/5840")
                 .then()
                 .assertThat()
                 .statusCode(200)

@@ -2,6 +2,7 @@ import com.jayway.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pojoClasses.Booking;
+import pojoClasses.BookingResponse;
 import utulity.BaseClass;
 import utulity.Url;
 
@@ -15,8 +16,8 @@ public class DeleteTest {
     public void deleteBooking() {
         Booking body = new Booking();
         body = body.addBookingAllFieldsFilled("Diana", "Round", 6, true, "pijamas", "2022-08-04", "2022-08-08");
-        Response response = BaseClass.postRequest(endPoint, body);
-        endPoint = endPoint + response.path("bookingid");
+        BookingResponse response = BaseClass.postRequest(endPoint, body);
+        endPoint = endPoint + response.getBookingid();
 
         Response responseAfterDeletion = BaseClass.deleteRequest(endPoint, getToken());
 
